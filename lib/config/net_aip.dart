@@ -11,5 +11,5 @@ class NetApi {
   static const String PRODUCTIONS_LIST = BASE_URL + "profiles/productionsList";
   //商品详情的json数据
   static const String PRODUCTIONS_DETAIL =
-      BASE_URL + "profiles/productionDetail";
+      BASE_URL + "profiles/productionDetaiasdadl";
 }
