@@ -63,7 +63,7 @@ class _CatagaryPageState extends State<CatagaryPage> {
   Widget buildCategoryContent(List<CategortContentModel> contentList) {
     List<Widget> list = List<Widget>();
     return Container(
-      width: 324,
+      width: 321.4,
       color: Colors.red,
       child: ListView(
         children: list,
