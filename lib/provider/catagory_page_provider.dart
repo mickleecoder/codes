@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/config/net_aip.dart';
-import 'package:testapp/model/home_page_model.dart';
 import 'package:testapp/net/net_request.dart';
 
-class HomePageProvider with ChangeNotifier {
-  HomePageModel model;
+class CategoryPageProvider with ChangeNotifier {
   bool isloading = false;
   bool isError = false;
   String errorMsg = "";
-  loadHomePageData() {
+  List<String> categoryNavList = [];
+  loadCategoryPageData() {
     isloading = true;
     isError = false;
     errorMsg = "";
-    NetRequest().requestData(NetApi.HOME_PAGE).then((res) {
+    NetRequest().requestData(NetApi.CATEGOTY_NAV).then((res) {
       isloading = false;
-      if (res.code == 200) {
-        model = HomePageModel.fromJson(res.data);
+      if (res.data is List) {
+        for (var i = 0; i < res.data.length; i++) {
+          categoryNavList.add(res.data[i]);
+        }
       }
       notifyListeners();
     }).catchError((error) {
