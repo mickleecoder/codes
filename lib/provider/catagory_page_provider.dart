@@ -50,7 +50,7 @@ class CategoryPageProvider with ChangeNotifier {
           categoryContentList.add(temModel);
         }
       }
-      print(res.data);
+      // print(res.data);
       notifyListeners();
     }).catchError((error) {
       print(error);

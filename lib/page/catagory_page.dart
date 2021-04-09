@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/model/category_conteng_model.dart';
+import 'package:testapp/page/product_list_page.dart';
 import 'package:testapp/provider/catagory_page_provider.dart';
+import 'package:testapp/provider/product_list_provider.dart';
 
 class CatagaryPage extends StatefulWidget {
   CatagaryPage({Key key}) : super(key: key);
@@ -25,11 +27,12 @@ class _CatagaryPageState extends State<CatagaryPage> {
               title: Text("分类"),
             ),
             body: Container(
-              color: Color(0xFFf4f4f4),
+              color: Color(0xFFf7f7f7),
               child: Consumer<CategoryPageProvider>(
                 builder: (_, provider, __) {
                   // 加载动画
-                  if (provider.isloading) {
+                  if (provider.isloading &&
+                      provider.categoryNavList.length == 0) {
                     return Center(child: CupertinoActivityIndicator());
                   }
 
@@ -52,7 +55,17 @@ class _CatagaryPageState extends State<CatagaryPage> {
                     children: <Widget>[
                       buildNavLeftContainer(provider),
                       //分类右侧
-                      buildCategoryContent(provider.categoryContentList)
+                      Expanded(
+                          child: Stack(
+                        children: [
+                          buildCategoryContent(provider.categoryContentList),
+                          provider.isloading
+                              ? Center(
+                                  child: CupertinoActivityIndicator(),
+                                )
+                              : Container()
+                        ],
+                      ))
                     ],
                   );
                 },
@@ -62,9 +75,70 @@ class _CatagaryPageState extends State<CatagaryPage> {
 
   Widget buildCategoryContent(List<CategortContentModel> contentList) {
     List<Widget> list = List<Widget>();
+
+    //处理数据
+    for (var i = 0; i < contentList.length; i++) {
+      list.add(Container(
+        height: 30.0,
+        margin: const EdgeInsets.only(left: 10.0, top: 10.0),
+        child: Text(
+          "${contentList[i].title}",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+        ),
+      ));
+
+      //商品数据
+      List<Widget> descList = List<Widget>();
+      for (var j = 0; j < contentList[i].desc.length; j++) {
+        descList.add(InkWell(
+          child: Container(
+            width: 60.0,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets${contentList[i].desc[j].img}",
+                  width: 50.0,
+                  height: 50.0,
+                ),
+                Text("${contentList[i].desc[j].text}")
+              ],
+            ),
+          ),
+          onTap: () {
+            //前往商品页面
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                      create: (context) {
+                        ProductListProvider provider = ProductListProvider();
+                        provider.loadProductList();
+                        return provider;
+                      },
+                      child: Consumer<ProductListProvider>(
+                        builder: (_, provider, __) {
+                          return Container(
+                            child: ProductListPage(
+                                title: contentList[i].desc[j].text),
+                          );
+                        },
+                      ),
+                    )));
+          },
+        ));
+      }
+      list.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          spacing: 7.0,
+          runSpacing: 10.0,
+          children: descList,
+        ),
+      ));
+    }
     return Container(
-      width: 321.4,
-      color: Colors.red,
+      width: double.infinity,
+      color: Colors.white,
       child: ListView(
         children: list,
       ),
