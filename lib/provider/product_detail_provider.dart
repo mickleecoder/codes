@@ -9,17 +9,21 @@ class ProductDetailProvider with ChangeNotifier {
   bool isError = false;
   String errorMsg = "";
 
-  loadProductDetail() {
+  loadProductDetail({String id}) {
     isloading = true;
     isError = false;
     errorMsg = "";
     NetRequest().requestData(NetApi.PRODUCTIONS_DETAIL).then((res) {
       isloading = false;
-      print(res.data);
+      // print(res.data);
       if (res.code == 200 && res.data is List) {
         for (var item in res.data) {
           ProductIDetailModel temModel = ProductIDetailModel.fromJson(item);
           // list.add(temModel);
+          if (temModel.partData.id == id) {
+            model = temModel;
+            print(model.toJson());
+          }
         }
         // model = ProductInfoModel.fromJson(res.data);
       }

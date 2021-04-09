@@ -58,13 +58,13 @@ class ProductListPage extends StatelessWidget {
                                     create: (context) {
                                       ProductDetailProvider provider =
                                           ProductDetailProvider();
-                                      provider.loadProductDetail();
+                                      provider.loadProductDetail(id: model.id);
                                       return provider;
                                     },
                                     child: Consumer<ProductDetailProvider>(
                                       builder: (_, provider, __) {
                                         return Container(
-                                          child: ProdutDetailPage(),
+                                          child: ProdutDetailPage(id: model.id),
                                         );
                                       },
                                     ),
