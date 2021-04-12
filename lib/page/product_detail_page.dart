@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/model/product_detail_model.dart';
+import 'package:testapp/provider/bottom_navi_provider.dart';
 import 'package:testapp/provider/cart_provider.dart';
 import 'package:testapp/provider/product_detail_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -103,7 +104,35 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.shopping_cart),
+                        Stack(
+                          children: [
+                            Container(
+                                width: 40,
+                                height: 30,
+                                child: Icon(Icons.shopping_cart)),
+                            Consumer<CartProvider>(
+                                builder: (_, cartProvider, __) {
+                              return Positioned(
+                                right: 0.0,
+                                child: cartProvider.getAllCount() > 0
+                                    ? Container(
+                                        padding: EdgeInsets.all(2.0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(11.0)),
+                                        child: Text(
+                                          "${cartProvider.getAllCount()}",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11.0),
+                                        ),
+                                      )
+                                    : Container(),
+                              );
+                            })
+                          ],
+                        ),
                         Text(
                           "购物车",
                           style: TextStyle(fontSize: 13.0),
@@ -113,6 +142,10 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                   ),
                   onTap: () {
                     //购物车
+                    Navigator.popUntil(context, ModalRoute.withName("/"));
+                    //跳转到购物车
+                    Provider.of<BottomNaviProvider>(context, listen: false)
+                        .changeBoottomNaviIndex(2);
                   },
                 ),
               ),
@@ -132,11 +165,8 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                   ),
                   onTap: () {
                     //加入购物车
-                    // Provider.of<CartProvider>(context)
-                    //     .addToCart(model.partData);
-                    //
-                    var provider = new CartProvider();
-                    provider.addToCart(model.partData);
+                    Provider.of<CartProvider>(context, listen: false)
+                        .addToCart(model.partData);
                     Fluttertoast.showToast(
                         msg: "加入购物车",
                         toastLength: Toast.LENGTH_SHORT,
@@ -326,8 +356,8 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                           ),
                           onTap: () {
                             // 加入购物车
-                            var provider = new CartProvider();
-                            provider.addToCart(model.partData);
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addToCart(model.partData);
                             Navigator.pop(context);
                           },
                         ),
