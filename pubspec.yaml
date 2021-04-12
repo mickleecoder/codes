@@ -28,9 +28,13 @@ dependencies:
   dio: ^4.0.0
   #轮播
   flutter_swiper: ^1.1.6
+  
   cupertino_icons: ^1.0.2
+  #缓存
   shared_preferences: ^2.0.5
+  #文字弹框提示
   fluttertoast: ^8.0.3
+  #购物车滑动删除
   flutter_slidable: ^0.6.0
 
   # The following adds the Cupertino Icons font to your application.
