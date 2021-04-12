@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/model/product_detail_model.dart';
+import 'package:testapp/provider/cart_provider.dart';
 import 'package:testapp/provider/product_detail_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -63,11 +65,11 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                     buildPayContainer(model, provider),
 
                     //商品件数
-                    buildCountContainer(model, provider)
+                    buildCountContainer(context, model, provider)
                   ],
                 ),
                 //底部菜单栏
-                buildBottomPositioned(),
+                buildBottomPositioned(context, model),
               ],
             );
           },
@@ -76,7 +78,8 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
     );
   }
 
-  Positioned buildBottomPositioned() {
+  Positioned buildBottomPositioned(
+      BuildContext context, ProductIDetailModel model) {
     return Positioned(
         left: 0,
         right: 0,
@@ -114,30 +117,42 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                 ),
               ),
               Expanded(
-                  child: InkWell(
-                child: Container(
-                  height: 60,
-                  color: Color(0xFFe93b3d),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "加入购物车",
-                    style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                child: InkWell(
+                  child: Container(
+                    height: 60,
+                    color: Color(0xFFe93b3d),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "加入购物车",
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
+                  onTap: () {
+                    //加入购物车
+                    // Provider.of<CartProvider>(context)
+                    //     .addToCart(model.partData);
+                    //
+                    var provider = new CartProvider();
+                    provider.addToCart(model.partData);
+                    Fluttertoast.showToast(
+                        msg: "加入购物车",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        backgroundColor: Color(0xFFe93b3d),
+                        fontSize: 16.0);
+                  },
                 ),
-                onTap: () {
-                  //加入购物车
-                },
-              ))
+              ),
             ],
           ),
         ));
   }
 
-  Container buildCountContainer(
-      ProductIDetailModel model, ProductDetailProvider provider) {
+  Container buildCountContainer(BuildContext contex, ProductIDetailModel model,
+      ProductDetailProvider provider) {
     return Container(
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -311,6 +326,9 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                           ),
                           onTap: () {
                             // 加入购物车
+                            var provider = new CartProvider();
+                            provider.addToCart(model.partData);
+                            Navigator.pop(context);
                           },
                         ),
                       )
