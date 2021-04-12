@@ -124,13 +124,23 @@ class CartProvider with ChangeNotifier {
   }
 
   void chaneSelectID(String id) {
+    int tmpCout = 0;
     // print(id);
     for (var i = 0; i < models.length; i++) {
       if (id == this.models[i].id) {
         this.models[i].isSelected = !this.models[i].isSelected;
       }
-      notifyListeners();
+      if (this.models[i].isSelected) {
+        tmpCout++;
+      }
     }
+    if (tmpCout == models.length) {
+      isSelectAll = true;
+    } else {
+      isSelectAll = false;
+    }
+
+    notifyListeners();
   }
 
   void changeSelectAll() {
