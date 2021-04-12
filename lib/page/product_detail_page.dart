@@ -336,7 +336,6 @@ class _ProdutDetailPageState extends State<ProdutDetailPage> {
                         }),
                       ),
                       //底部：加入购物车按钮
-                      //
                       Positioned(
                         left: 0,
                         right: 0,
