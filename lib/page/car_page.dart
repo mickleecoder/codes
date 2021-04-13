@@ -93,7 +93,7 @@ class _CarPageState extends State<CarPage> {
                         style: TextStyle(fontSize: 16.0),
                       ),
                       Text(
-                        "¥",
+                        "¥${provider.getAmount()}",
                         style: TextStyle(
                             fontSize: 16.0,
                             color: Color(0xFFe4393c),
@@ -106,7 +106,7 @@ class _CarPageState extends State<CarPage> {
                         color: Color(0xFFe4393c),
                         child: Center(
                           child: Text(
-                            "去结算",
+                            "去结算(${provider.getSelectCount()})",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
@@ -174,7 +174,7 @@ class _CarPageState extends State<CarPage> {
                 Container(
                   padding: EdgeInsets.only(right: 5.0),
                   child: Image.asset(
-                    "assets/${provider.models[index].loopImgUrl[0]}",
+                    "assets${provider.models[index].loopImgUrl[0]}",
                     width: 90.0,
                     height: 90.0,
                   ),
@@ -224,8 +224,10 @@ class _CarPageState extends State<CarPage> {
                           ),
                           onTap: () {
                             //减号
-                            provider.models[index].count -= 1;
-                            provider.addToCart(provider.models[index]);
+                            if (provider.models[index].count > 1) {
+                              provider.models[index].count -= 1;
+                              provider.addToCart(provider.models[index]);
+                            }
                           },
                         ),
                         SizedBox(

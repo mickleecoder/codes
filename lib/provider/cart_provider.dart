@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testapp/model/product_detail_model.dart';
@@ -21,6 +22,13 @@ class CartProvider with ChangeNotifier {
 
     //先把缓存里面的东西取出来
     list = pefs.getStringList("cartInfo");
+
+    //定义map数据
+    Map<String, bool> modelSelectedMap = {};
+    for (PartData model in models) {
+      modelSelectedMap.addAll({model.id: model.isSelected});
+    }
+
     models.clear();
 
     if (list == null) {
@@ -46,6 +54,12 @@ class CartProvider with ChangeNotifier {
           temData.count = data.count;
           isUpdated = true;
         }
+        //遍历判断点击的商品id和key是否相等
+        modelSelectedMap.forEach((key, value) {
+          if (temData.id == key) {
+            temData.isSelected = value;
+          }
+        });
 
         //放到数组中
         String tempDataStr = json.encode(temData.toJson());
@@ -149,5 +163,29 @@ class CartProvider with ChangeNotifier {
       this.models[i].isSelected = isSelectAll;
     }
     notifyListeners();
+  }
+
+  String getAmount() {
+    String amountStr = "0.00";
+    for (var i = 0; i < this.models.length; i++) {
+      if (models[i].isSelected == true) {
+        num price = this.models[i].count *
+            NumUtil.getNumByValueStr(this.models[i].price, fractionDigits: 2);
+        num amount = NumUtil.getNumByValueStr(amountStr, fractionDigits: 2);
+        amountStr = NumUtil.add(amount, price).toString();
+      }
+    }
+    return amountStr;
+  }
+
+  //统计选中商品个数
+  int getSelectCount() {
+    int selectCount = 0;
+    for (var i = 0; i < models.length; i++) {
+      if (this.models[i].isSelected == true) {
+        selectCount++;
+      }
+    }
+    return selectCount;
   }
 }
