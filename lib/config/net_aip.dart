@@ -12,4 +12,7 @@ class NetApi {
   //商品详情的json数据
   static const String PRODUCTIONS_DETAIL =
       BASE_URL + "profiles/productionDetail";
+
+  //socket服务器地址
+  static const address = "";
 }

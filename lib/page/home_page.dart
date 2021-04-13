@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:testapp/model/home_page_model.dart';
+import 'package:testapp/page/chatPages/login_page.dart';
 import 'package:testapp/provider/home_page_provider.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -120,20 +121,31 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(10.0),
       color: Colors.white,
       height: 50,
-      child: Row(
-        children: [
-          Image.asset(
-            "assets/image/bej.png",
-            width: 90,
-            height: 20,
-          ),
-          Spacer(),
-          Text("更多秒杀"),
-          Icon(
-            CupertinoIcons.right_chevron,
-            size: 14.0,
-          )
-        ],
+      child: InkWell(
+        child: Row(
+          children: [
+            Image.asset(
+              "assets/image/bej.png",
+              width: 90,
+              height: 20,
+            ),
+            Spacer(),
+            Text("更多秒杀"),
+            Icon(
+              CupertinoIcons.right_chevron,
+              size: 14.0,
+            )
+          ],
+        ),
+        onTap: () {
+          // print("去聊天室");
+          //去聊天室
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return Container(
+              child: LoginPage(),
+            );
+          }));
+        },
       ),
     );
   }

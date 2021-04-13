@@ -33,6 +33,7 @@ class CartProvider with ChangeNotifier {
 
     if (list == null) {
       //将传递过来的数据存到缓存和数组中
+      list = [];
       list.add(json.encode(data.toJson()));
       //存到缓存
       pefs.setStringList("cartInfo", list);
