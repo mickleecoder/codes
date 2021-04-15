@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testapp/widget/inputbox_widget.dart';
 
 class ChatRoomPage extends StatefulWidget {
   final String nickName;
@@ -15,7 +16,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       appBar: AppBar(
         title: Text("聊天室"),
       ),
-      body: Text("${widget.nickName}"),
+      body: InputBoxWidget(
+        body: null,
+      ),
     );
   }
 }

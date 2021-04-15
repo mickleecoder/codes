@@ -12,7 +12,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("聊天室登录"),
       ),
@@ -41,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 }
