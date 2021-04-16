@@ -16,6 +16,6 @@ class NetApi {
   //socket服务器地址
   //webscocket的地址不是http的协议头，而是ws://
   //如果是基于https的，则是wss://
-  static const address = "wws://192.168.128.12:20000";
+  static const address = "ws://192.168.128.12:20000";
   // static const address = "ws://192.168.1.103:8080/connect";
 }

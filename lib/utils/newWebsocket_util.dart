@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:testapp/config/net_aip.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// WebSocket地址
-const String _SOCKET_URL = 'ws://192.168.128.12:20000';
+const String _SOCKET_URL = NetApi.address;
 
 /// WebSocket状态
 enum SocketStatus {
