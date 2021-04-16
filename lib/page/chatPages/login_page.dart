@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testapp/page/chatPages/chatroom_page.dart';
+import 'package:testapp/utils/newWebsocket_util.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key}) : super(key: key);
@@ -32,9 +33,16 @@ class _LoginPageState extends State<LoginPage> {
               textColor: Colors.white,
               color: Colors.blueAccent,
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (cxt) => ChatRoomPage(_controller.text),
-                ));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (cxt) => ChatRoomPage(_controller.text),
+                // ));
+                WebSocketUtility().initWebSocket(onOpen: () {
+                  WebSocketUtility().initHeartBeat();
+                }, onMessage: (data) {
+                  print("接收到:$data");
+                }, onError: (e) {
+                  print(e);
+                });
               },
             )
           ],
