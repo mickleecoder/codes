@@ -15,7 +15,6 @@ class ProductDetailProvider with ChangeNotifier {
     errorMsg = "";
     NetRequest().requestData(NetApi.PRODUCTIONS_DETAIL).then((res) {
       isloading = false;
-      // print(res.data);
       if (res.code == 200 && res.data is List) {
         for (var item in res.data) {
           ProductIDetailModel temModel = ProductIDetailModel.fromJson(item);
